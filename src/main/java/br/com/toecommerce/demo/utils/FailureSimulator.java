@@ -10,22 +10,24 @@ public class FailureSimulator {
     public static void simulateFail(String type, double probability, int durationMs) throws Exception {
         if (random.nextDouble() <= probability) { // Simula probabilidade
             switch (type.toLowerCase()) {
-                case "omission":
+                case "omission" -> {
                     System.out.println("Falha de Omissão Simulada.");
                     throw new RuntimeException("Falha de Omissão: Nenhuma resposta será retornada.");
+                }
 
-                case "error":
+                case "error" -> {
                     System.out.println("Falha de Erro Simulada.");
                     Thread.sleep(durationMs); // Simula a duração do erro
                     throw new RuntimeException("Falha de Erro: Dados inválidos ou erro na resposta.");
+                }
 
-                case "crash":
+                case "crash" -> {
                     System.out.println("Falha de Crash Simulada.");
                     Thread.sleep(durationMs); // Simula crash antes de parar
                     System.exit(1); // Finaliza o processo simulando um crash
-                    break;
+                }
 
-                case "time":
+                case "time" -> {
                     // Controlando a falha de "Time" para ocorrer apenas por 30 segundos.
                     long currentTime = System.currentTimeMillis();
                     if (currentTime - lastFailureTime > 30000) {
@@ -36,10 +38,9 @@ public class FailureSimulator {
                     } else {
                         System.out.println("Falha de Timeout ignorada, fora do intervalo de 30s.");
                     }
-                    break;
+                }
 
-                default:
-                    throw new IllegalArgumentException("Tipo de falha desconhecido: " + type);
+                default -> throw new IllegalArgumentException("Tipo de falha desconhecido: " + type);
             }
         }
     }

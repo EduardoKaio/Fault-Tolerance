@@ -1,39 +1,42 @@
 version: '3.8'
+
 services:
-  e-commerce:
+  ecommerce:
     build:
-      context: ./e-commerce
+      context: .
+    container_name: ecommerce-service
+    environment:
+      - SERVICE_NAME=ecommerce
+      - SERVER_PORT=8080
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    depends_on:
-      - store
-      - exchange
-      - fidelity
 
   store:
     build:
-      context: ./store
+      context: .
+    container_name: store-service
+    environment:
+      - SERVICE_NAME=store
+      - SERVER_PORT=8081
     ports:
       - "8081:8081"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
 
   exchange:
     build:
-      context: ./exchange
-    ports:
-      - "8082:8082"
+      context: .
     deploy:
-      replicas: 2
+      mode: replicated
+      replicas: 2  
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SERVICE_NAME=exchange
+      - SERVER_PORT=8082
 
   fidelity:
     build:
-      context: ./fidelity
+      context: .
+    container_name: fidelity-service
+    environment:
+      - SERVICE_NAME=fidelity
+      - SERVER_PORT=8083
     ports:
       - "8083:8083"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod

@@ -33,8 +33,11 @@ private final Map<String, Product> products = new HashMap<>();
         return product;
     }
 
-    public String sellProduct(String productId) {
+    public String sellProduct(String productId) throws Exception {
         // Simula o registro de uma venda
+
+        FailureSimulator.simulateFail("error", 0.1, 5000);
+
         if (!products.containsKey(productId)) {
             throw new IllegalArgumentException("Produto não encontrado com o ID: " + productId);
         }
