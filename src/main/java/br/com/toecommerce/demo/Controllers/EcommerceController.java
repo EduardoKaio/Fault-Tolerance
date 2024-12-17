@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import br.com.toecommerce.demo.Models.FaultTolerance;
 import br.com.toecommerce.demo.Services.EcommerceService;
 
 @RestController
@@ -16,6 +17,7 @@ public class EcommerceController {
     
     @Autowired
     private final EcommerceService ecommerceService;
+    private final FaultTolerance faultTolerance;
     private final RestTemplate restTemplate = new RestTemplate();
 
 
@@ -28,8 +30,9 @@ public class EcommerceController {
     @Value("${fidelity.service.url}")
     private String fidelityServiceUrl;
     
-    public EcommerceController(EcommerceService ecommerceService) {
+    public EcommerceController(EcommerceService ecommerceService, FaultTolerance faultTolerance) {
         this.ecommerceService = ecommerceService;
+        this.faultTolerance = faultTolerance;
     }
 
     @GetMapping("/")
@@ -46,6 +49,8 @@ public class EcommerceController {
         @RequestParam("ft") boolean ft) throws InterruptedException {
     try {
         Thread.sleep(1000);
+        faultTolerance.setFaultTolerance(ft);
+        System.out.println("ft no eccomerceController" + ft);
         // Passo 1: Obter detalhes do produto via Store
         String productUrl = storeServiceUrl + "/product?product=" + productId;
         var productDetails = restTemplate.getForObject(productUrl, String.class);

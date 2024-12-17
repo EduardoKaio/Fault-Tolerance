@@ -22,7 +22,7 @@ Este projeto demonstra um sistema de e-commerce distribuído com serviços REST 
 3. **Testar a aplicação**:
    Use um cliente HTTP (como Postman ou cURL) para chamar o endpoint principal:
    ```http
-   POST http://localhost:8080/buy
+   GET http://localhost:8080/buy
    ```
 
 ## Serviços Disponíveis
