@@ -1,9 +1,7 @@
 package br.com.toecommerce.demo.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.toecommerce.demo.Models.FaultTolerance;
 import br.com.toecommerce.demo.utils.FailureSimulator;
 
 @Service
@@ -11,15 +9,8 @@ public class ExchangeService {
 
     // Armazena o último valor válido de taxa de câmbio
     private static double lastValidExchangeRate = 5.0; // Valor inicial padrão
-    private final FaultTolerance faultTolerance;
-    
-    @Autowired
-    public ExchangeService(FaultTolerance faultTolerance) {
-        this.faultTolerance = faultTolerance;
-    }
 
-    public double getExchangeRate() throws Exception {
-        boolean ft = faultTolerance.isFaultTolerance();
+    public double getExchangeRate(Boolean ft) throws Exception {
         try {
             // Simula falhas no serviço
             FailureSimulator.simulateFail("crash", 0.1, 0);

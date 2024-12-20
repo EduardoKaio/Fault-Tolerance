@@ -20,10 +20,10 @@ public class StoreController {
 
     // Endpoint /product (GET)
     @GetMapping("/product")
-    public ResponseEntity<?> getProduct(@RequestParam String product) throws InterruptedException {
+    public ResponseEntity<?> getProduct(@RequestParam String product, @RequestParam("ft") boolean ft) throws InterruptedException {
         Thread.sleep(1000);
         try {
-            Product productDetails = storeService.getProductDetails(product);
+            Product productDetails = storeService.getProductDetails(product, ft);
             System.out.println("Entrei no /product");
 
             return ResponseEntity.ok(productDetails);
@@ -34,10 +34,10 @@ public class StoreController {
 
     // Endpoint /sell (POST)
     @PostMapping("/sell")
-    public ResponseEntity<?> sellProduct(@RequestParam String product) throws InterruptedException{
+    public ResponseEntity<?> sellProduct(@RequestParam String product, @RequestParam("ft") boolean ft) throws InterruptedException{
         Thread.sleep(1000);
         try {
-            String transactionId = storeService.sellProduct(product);
+            String transactionId = storeService.sellProduct(product, ft);
             System.out.println("Entrei no /sell");
 
             return ResponseEntity.ok(transactionId);

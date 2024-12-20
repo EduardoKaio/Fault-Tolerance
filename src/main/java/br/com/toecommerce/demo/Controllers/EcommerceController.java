@@ -17,6 +17,8 @@ public class EcommerceController {
     
     @Autowired
     private final EcommerceService ecommerceService;
+
+    @Autowired
     private final FaultTolerance faultTolerance;
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -49,22 +51,21 @@ public class EcommerceController {
         @RequestParam("ft") boolean ft) throws InterruptedException {
     try {
         Thread.sleep(1000);
-        faultTolerance.setFaultTolerance(ft);
         System.out.println("ft no eccomerceController" + ft);
         // Passo 1: Obter detalhes do produto via Store
-        String productUrl = storeServiceUrl + "/product?product=" + productId;
+        String productUrl = storeServiceUrl + "/product?product=" + productId + "&ft=" + ft;
         var productDetails = restTemplate.getForObject(productUrl, String.class);
 
         // Passo 2: Obter taxa de câmbio via Exchange
-        String exchangeUrl = exchangeServiceUrl + "/exchange";
+        String exchangeUrl = exchangeServiceUrl + "/exchange" + "&ft=" + ft;
         double exchangeRate = restTemplate.getForObject(exchangeUrl, Double.class);
 
         // Passo 3: Registrar venda via Store
-        String sellUrl = storeServiceUrl + "/sell?product=" + productId;
+        String sellUrl = storeServiceUrl + "/sell?product=" + productId + "&ft=" + ft;
         String transactionId = restTemplate.postForObject(sellUrl, null, String.class);
 
         // Passo 4: Registrar bônus via Fidelity
-        String bonusUrl = fidelityServiceUrl + "/bonus?user=" + userId + "&bonus=" + Math.round(100);
+        String bonusUrl = fidelityServiceUrl + "/bonus?user=" + userId + "&bonus=" + Math.round(100) + "&ft=" + ft;
         restTemplate.postForEntity(bonusUrl, null, Void.class);
 
         // Resposta final

@@ -17,10 +17,10 @@ public class FidelityController {
 
     // Endpoint /bonus (POST)
     @PostMapping("/bonus")
-    public ResponseEntity<?> registerBonus(@RequestParam String user, @RequestParam int bonus) throws InterruptedException {
+    public ResponseEntity<?> registerBonus(@RequestParam String user, @RequestParam int bonus, @RequestParam("ft") boolean ft) throws InterruptedException {
         Thread.sleep(1000);
         try {
-            fidelityService.registerBonus(user, bonus);
+            fidelityService.registerBonus(user, bonus, ft);
             System.out.println("Entrei no /bonus");
             return ResponseEntity.ok("Bônus registrado com sucesso!");
         } catch (Exception e) {
