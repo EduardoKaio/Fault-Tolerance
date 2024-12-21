@@ -6,6 +6,7 @@ public class FailureSimulator {
 
     private static final Random random = new Random();
     private static long lastFailureTime = 0;  // Para controlar o intervalo da falha de tipo Time
+    private static final long FAILURE_DURATION = 30 * 1000; // 30 segundos em milissegundos
 
     public static void simulateFail(String type, double probability, int durationMs) throws Exception {
         if (random.nextDouble() <= probability) { // Simula probabilidade
@@ -43,6 +44,15 @@ public class FailureSimulator {
                 default -> throw new IllegalArgumentException("Tipo de falha desconhecido: " + type);
             }
         }
+    }
+    
+    /**
+     * Verifica se o sistema está em funcionamento normal, ou seja, sem falhas nos últimos 30 segundos.
+     * 
+     * @return true se o sistema está operacional; false caso contrário.
+     */
+    public static boolean isSystemOperational() {
+        return System.currentTimeMillis() - lastFailureTime > FAILURE_DURATION;
     }
 }
 

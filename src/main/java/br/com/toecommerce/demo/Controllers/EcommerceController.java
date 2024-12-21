@@ -57,7 +57,7 @@ public class EcommerceController {
         var productDetails = restTemplate.getForObject(productUrl, String.class);
 
         // Passo 2: Obter taxa de câmbio via Exchange
-        String exchangeUrl = exchangeServiceUrl + "/exchange" + "&ft=" + ft;
+        String exchangeUrl = exchangeServiceUrl + "/exchange?" + "ft=" + ft;
         double exchangeRate = restTemplate.getForObject(exchangeUrl, Double.class);
 
         // Passo 3: Registrar venda via Store
